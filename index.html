@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Creative EOE Photography — Premium Wedding & Portrait Photography based in Manchester, UK.">
+  <title>Creative EOE Photography</title>
+
+  <meta name="referrer" content="no-referrer">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── RESET & BASE ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --black: #0d0d0d;
+      --gray-light: #f5f4f2;
+      --gray-mid: #a8a49f;
+      --gray-dark: #3a3733;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+      --ease-gregor: cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    /* ─── INTRO LOADER (Gregor Collienne 3D Perspective Style) ─── */
+    .site-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #0d0d0d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: all;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 700ms var(--ease-gregor), visibility 700ms;
+    }
+    .site-loader.is-done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-stage {
+      perspective: 1200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .loader-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      display: block;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      transform: translateY(40px) rotateX(-45deg);
+      opacity: 0;
+      filter: blur(14px);
+      transition: transform 950ms var(--ease-gregor), opacity 950ms var(--ease-gregor), filter 950ms var(--ease-gregor);
+    }
+
+    .site-loader.is-animating .loader-title {
+      transform: translateY(0) rotateX(0deg);
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    .loader-tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 18px;
+      display: block;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      transform: translateY(24px) rotateX(-30deg);
+      opacity: 0;
+      filter: blur(8px);
+      transition: transform 850ms var(--ease-gregor) 180ms, opacity 850ms var(--ease-gregor) 180ms, filter 850ms var(--ease-gregor) 180ms;
+    }
+
+    .site-loader.is-animating .loader-tagline {
+      transform: translateY(0) rotateX(0deg);
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    /* Outro step: Elegant lift & fade */
+    .site-loader.is-leaving .loader-title {
+      transform: translateY(-30px) rotateX(25deg);
+      opacity: 0;
+      filter: blur(10px);
+      transition: transform 600ms var(--ease-gregor), opacity 600ms var(--ease-gregor), filter 600ms var(--ease-gregor);
+    }
+    .site-loader.is-leaving .loader-tagline {
+      transform: translateY(-20px) rotateX(20deg);
+      opacity: 0;
+      filter: blur(6px);
+      transition: transform 500ms var(--ease-gregor), opacity 500ms var(--ease-gregor), filter 500ms var(--ease-gregor);
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    html { -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* Kill 300ms tap delay */
+    button, a { touch-action: manipulation; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ─── FIXED CONTACT CTA ─── */
+    @keyframes cta-shake {
+      0% { transform: translateX(-50%) rotate(0deg); }
+      15% { transform: translateX(calc(-50% - 3px)) rotate(-2deg); }
+      30% { transform: translateX(calc(-50% + 3px)) rotate(2deg); }
+      45% { transform: translateX(calc(-50% - 2px)) rotate(-1.5deg); }
+      60% { transform: translateX(calc(-50% + 2px)) rotate(1.5deg); }
+      75% { transform: translateX(calc(-50% - 1px)) rotate(-0.5deg); }
+      90% { transform: translateX(calc(-50% + 1px)) rotate(0.5deg); }
+      100% { transform: translateX(-50%) rotate(0deg); }
+    }
+
+    .fixed-contact {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      padding: 14px 36px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+      box-shadow: 0 4px 24px oklch(0 0 0 / 0.22);
+      white-space: nowrap;
+      transform-origin: center center;
+    }
+    .fixed-contact:active { transform: translateX(-50%) scale(0.96); }
+    @media (hover: hover) and (pointer: fine) {
+      .fixed-contact:hover {
+        background: #262626;
+        animation: cta-shake 550ms var(--ease-out);
+        box-shadow: 0 6px 28px oklch(0 0 0 / 0.3);
+      }
+    }
+
+    /* ─── NAVBAR ─── */
+    nav.site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1002;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      background: oklch(1 0 0 / 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid oklch(0 0 0 / 0.07);
+      transition: background 200ms, border-color 200ms;
+    }
+
+    nav.site-nav.menu-open {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      border-bottom-color: transparent !important;
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: opacity 200ms var(--ease-out);
+      position: relative;
+      z-index: 1003;
+    }
+
+    .nav-logo-img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .nav-logo:hover { opacity: 0.75; }
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 1003;
+    }
+
+    /* Hamburger / menu toggle */
+    .menu-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px;
+      position: relative;
+      z-index: 1003;
+      touch-action: manipulation;
+    }
+    .menu-toggle span {
+      display: block;
+      height: 2px;
+      background: #000000;
+      border-radius: 1px;
+      transition: width 200ms var(--ease-out), transform 250ms var(--ease-out), opacity 200ms, background 200ms;
+      transform-origin: center;
+    }
+    .menu-toggle span:nth-child(1) { width: 28px; }
+    .menu-toggle span:nth-child(2) { width: 20px; }
+    .menu-toggle.open {
+      align-items: center;
+    }
+    .menu-toggle.open span {
+      background: #ffffff !important;
+      width: 24px !important;
+    }
+    .menu-toggle.open span:nth-child(1) {
+      transform: translateY(4px) rotate(45deg);
+    }
+    .menu-toggle.open span:nth-child(2) {
+      transform: translateY(-4px) rotate(-45deg);
+    }
+
+    /* ─── OVERLAY MENU (Adovasio style) ─── */
+    .overlay-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 1001;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      padding: 100px 48px 56px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 280ms var(--ease-drawer);
+    }
+    .overlay-menu.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .overlay-header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 72px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .overlay-logo-img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      pointer-events: auto;
+    }
+
+    .overlay-menu-inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .overlay-nav-links {
+      list-style: none;
+      padding: 0;
+      margin-top: 40px;
+    }
+
+    .overlay-nav-links li {
+      overflow: hidden;
+      border-bottom: 1px solid oklch(1 0 0 / 0.08);
+    }
+    .overlay-nav-links li:first-child { border-top: 1px solid oklch(1 0 0 / 0.08); }
+
+    .overlay-nav-links a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      transform: translateY(40px);
+      opacity: 0;
+      transition: transform 400ms var(--ease-out), opacity 400ms var(--ease-out), color 200ms;
+    }
+    .overlay-nav-links a .nav-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-style: normal;
+      letter-spacing: 0.15em;
+      opacity: 0.4;
+      align-self: flex-start;
+      padding-top: 8px;
+    }
+
+    .overlay-menu.open .overlay-nav-links a {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .overlay-menu.open .overlay-nav-links li:nth-child(1) a { transition-delay: 60ms; }
+    .overlay-menu.open .overlay-nav-links li:nth-child(2) a { transition-delay: 110ms; }
+    .overlay-menu.open .overlay-nav-links li:nth-child(3) a { transition-delay: 160ms; }
+
+    @media (hover: hover) and (pointer: fine) {
+      .overlay-nav-links a:hover { color: var(--gray-mid); }
+    }
+
+    .overlay-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .overlay-socials {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .overlay-socials a {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: oklch(1 0 0 / 0.5);
+      text-decoration: none;
+      transition: color 200ms;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .overlay-socials a:hover { color: var(--white); }
+    }
+
+    .overlay-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      color: oklch(1 0 0 / 0.3);
+      letter-spacing: 0.08em;
+      font-style: italic;
+    }
+
+    /* ─── HERO SECTION ─── */
+    .hero {
+      position: relative;
+      min-height: 85vh;
+      background: var(--white);
+      display: flex;
+      align-items: flex-end;
+      padding: 130px 5vw 80px;
+      width: 100%;
+    }
+
+    .hero-inner {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 60px;
+    }
+
+    .hero-left {
+      flex: 1 1 auto;
+      max-width: 62%;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .hero-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 5.8vw, 6.2rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--black);
+      text-wrap: balance;
+    }
+
+    .hero-right {
+      flex: 0 0 auto;
+      width: 360px;
+      max-width: 38%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 12px;
+    }
+
+    .hero-sub {
+      font-size: 0.88rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--gray-dark);
+      text-wrap: pretty;
+    }
+
+    .hero-sub p + p { margin-top: 1.1em; }
+
+    .hero-scroll-hint {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+    }
+
+    .hero-scroll-line {
+      width: 36px;
+      height: 1px;
+      background: var(--gray-mid);
+      display: block;
+      flex-shrink: 0;
+    }
+
+    /* hero reveal animations */
+    .hero-eyebrow,
+    .hero-heading,
+    .hero-sub,
+    .hero-scroll-hint {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: hero-in 900ms var(--ease-out) forwards;
+    }
+    .hero-heading     { animation-delay: 80ms; }
+    .hero-sub         { animation-delay: 180ms; }
+    .hero-scroll-hint { animation-delay: 300ms; }
+
+    @keyframes hero-in {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        padding: calc(72px + 40px) 24px 60px;
+        min-height: auto;
+      }
+      .hero-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 36px;
+      }
+      .hero-left {
+        max-width: 100%;
+      }
+      .hero-right {
+        width: 100%;
+        max-width: 100%;
+      }
+      .hero-heading { font-size: clamp(2.8rem, 9vw, 4.2rem); }
+      .hero-scroll-hint { margin-top: 24px; }
+    }
+
+    /* ─── TICKER / MARQUEE ─── */
+    .ticker-section {
+      width: 100%;
+      overflow: hidden;
+      padding: 64px 0;
+      background: var(--white);
+      border-top: 1px solid oklch(0 0 0 / 0.1);
+      border-bottom: 1px solid oklch(0 0 0 / 0.06);
+    }
+
+    .ticker-track-wrapper {
+      display: flex;
+      gap: 16px;
+      overflow: hidden;
+      width: 100%;
+      user-select: none;
+      cursor: grab;
+      mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 16px;
+      flex-shrink: 0;
+      will-change: transform;
+    }
+
+    .ticker-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      flex-shrink: 0;
+      background: var(--gray-light);
+    }
+
+    .ticker-img {
+      width: 270px;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+      outline: 1px solid oklch(0 0 0 / 0.08);
+      transform: scale(1);
+      filter: brightness(0.98);
+      transition: transform 400ms var(--ease-out), filter 400ms var(--ease-out);
+      pointer-events: auto;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .ticker-item:hover .ticker-img {
+        transform: scale(1.04);
+        filter: brightness(1.03);
+      }
+    }
+
+    /* ─── SECTION COMMON ─── */
+    section {
+      padding: 100px 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 20px;
+    }
+
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      text-wrap: balance;
+      color: var(--black);
+    }
+
+    /* ─── SERVICES ─── */
+    .services-section {
+      background: var(--white);
+      border-top: 1px solid oklch(0 0 0 / 0.08);
+      border-bottom: 1px solid oklch(0 0 0 / 0.08);
+    }
+
+    .services-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 64px;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .service-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--black);
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.75;
+      transition: transform 600ms var(--ease-out), opacity 400ms var(--ease-out);
+      display: block;
+      outline: 1px solid oklch(1 0 0 / 0.05);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .service-card:hover img { transform: scale(1.04); opacity: 0.6; }
+    }
+
+    .service-card-content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 40px 36px;
+      color: var(--white);
+      background: linear-gradient(to top, oklch(0 0 0 / 0.7) 0%, transparent 100%);
+    }
+
+    .service-card-num {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-bottom: 12px;
+    }
+
+    .service-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+
+    .service-card-desc {
+      font-size: 0.82rem;
+      line-height: 1.65;
+      opacity: 0.72;
+      margin-top: 12px;
+      max-width: 46ch;
+    }
+
+    /* ─── TESTIMONIALS (Adovasio Style) ─── */
+    .testimonials-section {
+      background: var(--white);
+      padding: 130px 0;
+      position: relative;
+      border-top: 1px solid oklch(0 0 0 / 0.08);
+      border-bottom: 1px solid oklch(0 0 0 / 0.08);
+    }
+
+    .adovasio-quote-container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+    }
+
+    .adovasio-quote-decorator {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 40px;
+      color: var(--black);
+      opacity: 0.85;
+    }
+
+    .adovasio-quote-decorator svg {
+      width: 42px;
+      height: 38px;
+      fill: currentColor;
+    }
+
+    .adovasio-quotes-viewport {
+      position: relative;
+      min-height: 290px;
+      overflow: hidden;
+    }
+
+    .adovasio-quote-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(28px);
+      transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .adovasio-quote-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      position: relative;
+    }
+
+    .adovasio-quote-body {
+      display: flex;
+      align-items: flex-start;
+      gap: 36px;
+    }
+
+    .adovasio-quote-image-wrapper {
+      flex-shrink: 0;
+      width: 90px;
+      height: 120px;
+      border-radius: 2px;
+      overflow: hidden;
+      outline: 1px solid oklch(0 0 0 / 0.1);
+      box-shadow: 0 8px 24px oklch(0 0 0 / 0.08);
+    }
+
+    .adovasio-quote-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .adovasio-quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.7vw, 2.2rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      text-wrap: pretty;
+      flex: 1;
+    }
+
+    .adovasio-quote-author {
+      margin-top: 36px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .adovasio-quote-author::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--gray-mid);
+    }
+
+    /* Adovasio-style bottom pagination & navigation */
+    .adovasio-quote-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 56px;
+      padding-top: 32px;
+      border-top: 1px solid oklch(0 0 0 / 0.06);
+    }
+
+    .adovasio-quote-counter {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--gray-mid);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .adovasio-quote-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .adovasio-nav-btn {
+      background: none;
+      border: 1px solid oklch(0 0 0 / 0.15);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--black);
+      transition: background 200ms var(--ease-out), border-color 200ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+
+    .adovasio-nav-btn:hover {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .adovasio-nav-btn:active {
+      transform: scale(0.94);
+    }
+
+    .adovasio-nav-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+    }
+
+    .adovasio-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .adovasio-dot {
+      width: 28px;
+      height: 2px;
+      background: oklch(0 0 0 / 0.15);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 300ms var(--ease-out);
+    }
+
+    .adovasio-dot.active {
+      background: var(--black);
+    }
+
+    @media (max-width: 768px) {
+      .adovasio-quote-body {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .adovasio-quote-image-wrapper {
+        width: 70px;
+        height: 95px;
+      }
+      .adovasio-quote-text {
+        font-size: 1.35rem;
+      }
+    }
+
+    /* ─── PORTFOLIO GRID ─── */
+    .portfolio-section { background: var(--white); padding-top: 40px; }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      margin-top: 64px;
+    }
+
+    .portfolio-item {
+      position: relative;
+      overflow: hidden;
+      background: var(--gray-light);
+      cursor: pointer;
+    }
+
+    .portfolio-item:nth-child(1) { grid-row: span 2; }
+    .portfolio-item:nth-child(4) { grid-row: span 2; }
+
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      min-height: 280px;
+      transition: transform 500ms var(--ease-out);
+      outline: 1px solid oklch(1 0 0 / 0.05);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .portfolio-item:hover img { transform: scale(1.03); }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--white);
+      color: var(--black);
+      padding: 90px 48px 110px;
+      border-top: 1px solid oklch(0 0 0 / 0.08);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.04em;
+      color: var(--black);
+    }
+
+    .footer-tagline {
+      font-size: 0.8rem;
+      color: var(--gray-dark);
+      margin-top: 12px;
+      line-height: 1.65;
+      letter-spacing: 0.02em;
+    }
+
+    .footer-nav-title {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 20px;
+    }
+
+    .footer-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .footer-nav-list a {
+      color: var(--gray-dark);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 200ms;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .footer-nav-list a:hover { color: var(--black); }
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 56px auto 0;
+      padding-top: 28px;
+      border-top: 1px solid oklch(0 0 0 / 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--gray-mid);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 80ms; }
+    .reveal-delay-2 { transition-delay: 160ms; }
+    .reveal-delay-3 { transition-delay: 240ms; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav.site-nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .container { padding: 0 24px; }
+
+      .about-inner {
+        grid-template-columns: 1fr;
+        gap: 56px;
+      }
+      .about-content { padding-right: 0; }
+      .about-image-group { max-width: 360px; margin: 0 auto; }
+      .about-img-accent { display: none; }
+
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { aspect-ratio: 4/3; }
+
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .portfolio-item:nth-child(1),
+      .portfolio-item:nth-child(4) { grid-row: span 1; }
+
+      .testimonial-item {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .testimonial-item-num { display: none; }
+
+      .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+
+      .overlay-menu { padding: 88px 24px 48px; }
+
+      footer { padding: 64px 24px 110px; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 72px 0; }
+      .ticker-img { width: 180px; height: 240px; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .portfolio-item:nth-child(1),
+      .portfolio-item:nth-child(4) { grid-row: span 1; }
+    }
+
+    /* Input zoom fix */
+    input, textarea, select { font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ INTRO LOADER (Gregor Collienne Style) ═══ -->
+  <aside class="site-loader" id="siteLoader" aria-label="Loading Creative EOE Photography" aria-live="polite">
+    <div class="loader-stage">
+      <div class="loader-title">Creative EOE</div>
+      <div class="loader-tagline">Photography &mdash; Manchester, UK</div>
+    </div>
+  </aside>
+
+  <!-- ═══ FIXED CONTACT CTA ═══ -->
+  <a href="https://wa.me/447827391279" target="_blank" rel="noopener" class="fixed-contact" aria-label="Book a Session with Creative EOE Photography on WhatsApp">
+    Book a Session
+  </a>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="#home" class="nav-logo" id="mainNavLogo" aria-label="Creative EOE Photography">
+      <img src="logo.png" alt="Creative EOE" class="nav-logo-img">
+    </a>
+    <div class="nav-right">
+      <button
+        class="menu-toggle"
+        aria-expanded="false"
+        aria-controls="overlay-menu"
+        aria-label="Open menu"
+        id="menu-btn">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══ OVERLAY MENU ═══ -->
+  <div class="overlay-menu" id="overlay-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <div class="overlay-header">
+      <a href="#home" aria-label="Creative EOE Photography" class="overlay-logo-link">
+        <img src="logo-white.png" alt="Creative EOE" class="overlay-logo-img">
+      </a>
+    </div>
+    <div class="overlay-menu-inner">
+      <ul class="overlay-nav-links" role="list">
+        <li>
+          <a href="#home" class="overlay-nav-link">
+            Home
+            <span class="nav-num">01</span>
+          </a>
+        </li>
+        <li>
+          <a href="portfolio.html" class="overlay-nav-link">
+            Portfolio
+            <span class="nav-num">02</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="overlay-footer">
+        <div class="overlay-socials">
+          <a href="https://instagram.com/creativeeoephotography" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://wa.me/447827391279" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <p class="overlay-tagline">Your big day, in photographs.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="home" aria-label="Hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <span class="hero-eyebrow">Manchester, United Kingdom</span>
+        <h1 class="hero-heading">The Real, The&nbsp;Mundane,<br>Yet Such Precious Moments</h1>
+      </div>
+      <div class="hero-right">
+        <div class="hero-sub">
+          <p>Creative EOE Photography is a premium wedding and portrait photography brand based in Manchester, United Kingdom. Over the years, the brand has helped couples and individuals document their special moments, telling every love story in a unique way.</p>
+          <p>At Creative EOE, our watchword is that your big day exists to be remembered in photographs — so let us make it count.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ TICKER / MARQUEE ═══ -->
+  <div class="ticker-section" aria-label="Photo gallery ticker">
+    <div class="ticker-track-wrapper" id="tickerWrapper">
+      <!-- Track A -->
+      <div class="ticker-track" id="tickerTrackA">
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/20-0770dd83-2500.jpg" alt="Selected work wedding ceremony" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_4832-ec11bbe6-2500.jpg" alt="Selected work portrait" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_0015-1deb1f37-2500.jpg" alt="Selected work couple editorial" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6192-Edit-84932a91-2500.jpg" alt="Selected work wedding couple" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_1946-8cd4da6d-2500.jpg" alt="Selected work portrait session" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6595-Edit-34af2542-2500.jpg" alt="Selected work wedding reception" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_4850-bb948f84-2500.jpg" alt="Selected work bridal portrait" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6294-Edit-7624a862-2500.jpg" alt="Selected work couple shoot" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_4594-2-eaf67ec9-2500.jpg" alt="Selected work wedding moments" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6694-956a6352-2500.jpg" alt="Selected work ceremony celebration" loading="eager"></div>
+      </div>
+      <!-- Track B (clone for seamless loop) -->
+      <div class="ticker-track" id="tickerTrackB" aria-hidden="true">
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/20-0770dd83-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_4832-ec11bbe6-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_0015-1deb1f37-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6192-Edit-84932a91-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_1946-8cd4da6d-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6595-Edit-34af2542-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_4850-bb948f84-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6294-Edit-7624a862-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_4594-2-eaf67ec9-2500.jpg" alt="" loading="eager"></div>
+        <div class="ticker-item"><img class="ticker-img" src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6694-956a6352-2500.jpg" alt="" loading="eager"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="services-section" id="weddings" aria-labelledby="services-heading">
+    <div class="container">
+      <div class="services-header">
+        <div>
+          <p class="section-eyebrow reveal">Our Services</p>
+          <h2 class="section-heading reveal reveal-delay-1" id="services-heading">
+            What We Offer
+          </h2>
+        </div>
+      </div>
+      <div class="services-grid">
+        <!-- Card 1: Weddings -->
+        <div class="service-card reveal" id="weddings-card">
+          <img
+            src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_6192-Edit-84932a91-2500.jpg"
+            alt="Wedding photography — couple on their wedding day"
+            loading="eager"
+          >
+          <div class="service-card-content">
+            <p class="service-card-num">01</p>
+            <h3 class="service-card-title">Wedding<br>Photography</h3>
+            <p class="service-card-desc">Timeless, documentary-style coverage of your most special day — from getting-ready moments to the last dance.</p>
+          </div>
+        </div>
+        <!-- Card 2: Portrait / Studio -->
+        <div class="service-card reveal reveal-delay-1" id="studio">
+          <img
+            src="https://images-pw.pixieset.com/elementfield/ly4aqXG/EOE_1946-8cd4da6d-2500.jpg"
+            alt="Portrait photography — studio session"
+            loading="eager"
+          >
+          <div class="service-card-content">
+            <p class="service-card-num">02</p>
+            <h3 class="service-card-title">Portrait &amp;<br>Studio</h3>
+            <p class="service-card-desc">Individual, family and lifestyle portraits crafted with intentional light and an editorial eye in our Manchester studio.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TESTIMONIALS (Adovasio Style) ═══ -->
+  <section class="testimonials-section" id="testimonials" aria-labelledby="testimonials-heading">
+    <div class="adovasio-quote-container">
+      <!-- Adovasio Quote Decorator SVG -->
+      <div class="adovasio-quote-decorator reveal">
+        <svg viewBox="0 0 44 39" aria-hidden="true">
+          <path d="M25.8626 39V25.9442C25.8626 18.8026 27.2621 12.9442 30.0611 8.36909C32.972 3.79399 37.6183 1.00429 44 0V6.86265C40.1934 7.30901 37.5064 8.75965 35.9389 11.2146C34.3715 13.6695 33.5878 17.5751 33.5878 22.9313L28.5496 22.2618H43.8321V39H25.8626ZM0 39V25.9442C0 18.8026 1.39949 12.9442 4.19847 8.36909C7.10941 3.79399 11.7557 1.00429 18.1374 0V6.86265C14.3308 7.30901 11.6438 8.75965 10.0763 11.2146C8.50891 13.6695 7.72519 17.5751 7.72519 22.9313L2.68702 22.2618H17.9695V39H0Z"></path>
+        </svg>
+      </div>
+
+      <!-- Quotes Viewport -->
+      <div class="adovasio-quotes-viewport" id="adovasioQuotesViewport">
+        <!-- Slide 1: Nathan & Happiness -->
+        <div class="adovasio-quote-slide active" data-slide="0">
+          <div class="adovasio-quote-body">
+            <div class="adovasio-quote-image-wrapper">
+              <img src="https://images-pw.pixieset.com/elementfield/GGXMmrx/EOE_8823-aa95632e-1500.jpg" alt="Nathan & Happiness wedding photo" loading="lazy">
+            </div>
+            <div class="adovasio-quote-text">
+              “Calling CREATIVE EOE a photographer would be an extreme understatement, THE BRAND is truly a visionary. From our very first conversation to the weeks leading up to our wedding, they understood exactly what we wanted and brought our vision to life with creativity, precision, and heart. Every moment was captured beyond our expectations.”
+            </div>
+          </div>
+          <div class="adovasio-quote-author">
+            Nathan &amp; Happiness
+          </div>
+        </div>
+
+        <!-- Slide 2: Timothy & Erica -->
+        <div class="adovasio-quote-slide" data-slide="1">
+          <div class="adovasio-quote-body">
+            <div class="adovasio-quote-image-wrapper">
+              <img src="https://images-pw.pixieset.com/elementfield/Rl3nvrM/EOE_4892-8074fc97-1500.jpg" alt="Timothy & Erica wedding photo" loading="lazy">
+            </div>
+            <div class="adovasio-quote-text">
+              “We felt in good hands from the start to finish. CREATIVE EOE understands all the stress that comes with a wedding and they made our lives so much easier. We barely remembered being photographed, except a few moments when they asked us to pose. And those few moments turned out to be the best of the bunch! Would definitely recommend CREATIVE EOE.”
+            </div>
+          </div>
+          <div class="adovasio-quote-author">
+            Timothy &amp; Erica
+          </div>
+        </div>
+
+        <!-- Slide 3: Igwala & Iyogie -->
+        <div class="adovasio-quote-slide" data-slide="2">
+          <div class="adovasio-quote-body">
+            <div class="adovasio-quote-image-wrapper">
+              <img src="https://images-pw.pixieset.com/elementfield/ovewXO7/EOE_1064-98dd9c7a-1500.jpg" alt="Igwala & Iyogie wedding photo" loading="lazy">
+            </div>
+            <div class="adovasio-quote-text">
+              “There aren’t enough words to describe how lucky we were to land THE BRAND CREATIVE EOE. They are a blessing throughout the whole process! And not only when it came to the images, some of the organisational insights were extremely useful too! If you’re looking for someone who can take you back to your wedding day when you’re looking at the photos, and make that very day easier for you, CREATIVE EOE is definitely the one for you!”
+            </div>
+          </div>
+          <div class="adovasio-quote-author">
+            Igwala &amp; Iyogie
+          </div>
+        </div>
+      </div>
+
+      <!-- Adovasio Bottom Nav & Counter -->
+      <div class="adovasio-quote-footer reveal">
+        <div class="adovasio-quote-counter" id="adovasioQuoteCounter">
+          01 / 03
+        </div>
+
+        <div class="adovasio-dots" id="adovasioDots">
+          <button class="adovasio-dot active" aria-label="Go to slide 1" data-index="0"></button>
+          <button class="adovasio-dot" aria-label="Go to slide 2" data-index="1"></button>
+          <button class="adovasio-dot" aria-label="Go to slide 3" data-index="2"></button>
+        </div>
+
+        <div class="adovasio-quote-nav">
+          <button class="adovasio-nav-btn" id="adovasioPrevBtn" aria-label="Previous testimonial">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="adovasio-nav-btn" id="adovasioNextBtn" aria-label="Next testimonial">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section id="contact" aria-labelledby="contact-heading" style="background: var(--white); padding: 110px 0 150px; border-top: 1px solid oklch(0 0 0 / 0.08);">
+    <div class="container" style="text-align: center; max-width: 640px;">
+      <p class="section-eyebrow reveal" style="text-align: center;">Ready to Begin?</p>
+      <h2 class="section-heading reveal reveal-delay-1" style="text-align: center; margin-bottom: 20px;" id="contact-heading">
+        Let's Tell Your Story
+      </h2>
+      <p class="about-body reveal reveal-delay-2" style="text-align: center; margin: 0 auto 40px; max-width: 52ch; font-size: 0.9rem; line-height: 1.7; color: var(--gray-dark);">
+        Based in Manchester, UK — available for weddings &amp; portrait sessions worldwide. Reach out to check availability and start the conversation.
+      </p>
+      <div class="reveal reveal-delay-3" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a
+          href="https://wa.me/447827391279"
+          target="_blank"
+          rel="noopener"
+          style="
+            display: inline-block;
+            background: var(--black);
+            color: var(--white);
+            padding: 16px 40px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: transform 160ms cubic-bezier(0.23,1,0.32,1), background 160ms;
+          "
+          onmouseenter="this.style.background='#333'"
+          onmouseleave="this.style.background='#0d0d0d'"
+          onmousedown="this.style.transform='scale(0.96)'"
+          onmouseup="this.style.transform='scale(1)'"
+        >WhatsApp Us</a>
+        <a
+          href="mailto:hello@creativeeoephotography.com"
+          style="
+            display: inline-block;
+            background: transparent;
+            color: var(--black);
+            border: 1px solid oklch(0 0 0 / 0.25);
+            padding: 16px 40px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: transform 160ms cubic-bezier(0.23,1,0.32,1), border-color 160ms;
+          "
+          onmouseenter="this.style.borderColor='#0d0d0d'"
+          onmouseleave="this.style.borderColor='oklch(0 0 0 / 0.25)'"
+          onmousedown="this.style.transform='scale(0.96)'"
+          onmouseup="this.style.transform='scale(1)'"
+        >Send an Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <a href="#home" aria-label="Creative EOE Home" style="display: inline-block;">
+          <img src="footer-logo.png" alt="Creative EOE" style="height: 52px; width: auto; object-fit: contain; display: block; margin-bottom: 8px;">
+        </a>
+        <p class="footer-tagline">Premium Wedding &amp; Portrait Photography<br>Based in Manchester, UK</p>
+      </div>
+      <div>
+        <p class="footer-nav-title">Navigate</p>
+        <ul class="footer-nav-list">
+          <li><a href="#home">Home</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="https://wa.me/447827391279" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-nav-title">Connect</p>
+        <ul class="footer-nav-list">
+          <li><a href="https://instagram.com/creativeeoephotography" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://wa.me/447827391279" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Creative EOE Photography. All rights reserved.</span>
+      <span>Manchester, UK</span>
+    </div>
+  </footer>
+
+  <!-- ═══ SCRIPTS ═══ -->
+  <script>
+    /* ─── INTRO LOADER (First visit / Refresh only; suppressed across internal navigation) ─── */
+    (function initIntroLoader() {
+      const loader = document.getElementById('siteLoader');
+      if (!loader) return;
+
+      const isNavigated = sessionStorage.getItem('eoe_intro_shown') === 'true';
+      const isRefresh = (function() {
+        try {
+          const navEntries = performance.getEntriesByType('navigation');
+          if (navEntries && navEntries.length > 0) {
+            return navEntries[0].type === 'reload';
+          }
+          return performance.navigation && performance.navigation.type === 1;
+        } catch (e) {
+          return false;
+        }
+      })();
+
+      // If user moved from another page within the same session (not a page refresh), skip loader
+      if (isNavigated && !isRefresh) {
+        loader.classList.add('is-done');
+        loader.remove();
+        return;
+      }
+
+      // Mark session as shown for subsequent internal page transitions
+      sessionStorage.setItem('eoe_intro_shown', 'true');
+
+      // Trigger 3D Perspective Animation (Gregor Collienne style)
+      requestAnimationFrame(() => {
+        // Step 1: Animate title and tagline in from 3D space
+        setTimeout(() => {
+          loader.classList.add('is-animating');
+        }, 80);
+
+        // Step 2: Hold for high-craft readability then lift out
+        setTimeout(() => {
+          loader.classList.add('is-leaving');
+        }, 1350);
+
+        // Step 3: Complete fade and remove overlay
+        setTimeout(() => {
+          loader.classList.add('is-done');
+          setTimeout(() => {
+            if (loader.parentNode) loader.remove();
+          }, 700);
+        }, 1900);
+      });
+    })();
+
+    /* ── Menu Toggle ── */
+    const menuBtn = document.getElementById('menu-btn');
+    const overlayMenu = document.getElementById('overlay-menu');
+    const mainNavLogo = document.getElementById('mainNavLogo');
+
+    function openMenu() {
+      menuBtn.setAttribute('aria-expanded', 'true');
+      menuBtn.classList.add('open');
+      overlayMenu.classList.add('open');
+      document.querySelector('nav.site-nav').classList.add('menu-open');
+      if (mainNavLogo) mainNavLogo.style.opacity = '0';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.classList.remove('open');
+      overlayMenu.classList.remove('open');
+      document.querySelector('nav.site-nav').classList.remove('menu-open');
+      if (mainNavLogo) mainNavLogo.style.opacity = '1';
+      document.body.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', () => {
+      const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    /* Close on nav link click */
+    document.querySelectorAll('.overlay-nav-link, .overlay-logo-link').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    /* Close on Escape */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlayMenu.classList.contains('open')) closeMenu();
+    });
+
+    /* ── Scroll Reveal ── */
+    const revealEls = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    /* ── Nav scroll state ── */
+    const siteNav = document.querySelector('.site-nav');
+
+    function updateNavScroll() {
+      if (window.scrollY > 40) {
+        siteNav.style.background = 'oklch(1 0 0 / 0.94)';
+        siteNav.style.backdropFilter = 'blur(12px)';
+        siteNav.style.borderBottom = '1px solid oklch(0 0 0 / 0.07)';
+      } else {
+        siteNav.style.background = 'oklch(1 0 0 / 0.94)';
+        siteNav.style.backdropFilter = 'blur(12px)';
+        siteNav.style.borderBottom = '1px solid oklch(0 0 0 / 0.07)';
+      }
+    }
+
+    updateNavScroll();
+    window.addEventListener('scroll', updateNavScroll, { passive: true });
+
+    /* ─── CONTINUOUS TICKER ENGINE (Seamless Hover Slowdown) ─── */
+    (function initTicker() {
+      const wrapper = document.getElementById('tickerWrapper');
+      const trackA = document.getElementById('tickerTrackA');
+      const trackB = document.getElementById('tickerTrackB');
+      if (!wrapper || !trackA || !trackB) return;
+
+      let position = 0;
+      let lastTime = null;
+      let isHovered = false;
+
+      // Base speeds (pixels per second)
+      const normalSpeed = 65; // Normal speed ~65 px/s
+      const hoverSpeed = normalSpeed * 0.5; // Exactly 50% speed on hover
+      let currentSpeed = normalSpeed;
+
+      wrapper.addEventListener('mouseenter', () => { isHovered = true; });
+      wrapper.addEventListener('mouseleave', () => { isHovered = false; });
+
+      // Support touch as well
+      wrapper.addEventListener('touchstart', () => { isHovered = true; }, { passive: true });
+      wrapper.addEventListener('touchend', () => { isHovered = false; }, { passive: true });
+
+      function step(now) {
+        if (!lastTime) lastTime = now;
+        const delta = Math.min((now - lastTime) / 1000, 0.1); // in seconds
+        lastTime = now;
+
+        // Smoothly interpolate current speed towards target speed (no jarring jumps)
+        const targetSpeed = isHovered ? hoverSpeed : normalSpeed;
+        currentSpeed += (targetSpeed - currentSpeed) * Math.min(delta * 8, 1);
+
+        // Advance position based on delta time
+        position -= currentSpeed * delta;
+
+        // Measure track width dynamically to ensure perfectly seamless reset
+        const trackWidth = trackA.offsetWidth + 16; // including gap
+        if (trackWidth > 0 && Math.abs(position) >= trackWidth) {
+          position += trackWidth;
+        }
+
+        const transformStr = `translate3d(${position}px, 0, 0)`;
+        trackA.style.transform = transformStr;
+        trackB.style.transform = transformStr;
+
+        requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+    })();
+
+    /* ─── ADOVASIO TESTIMONIAL SLIDER INTERACTION ─── */
+    (function initAdovasioTestimonials() {
+      const slides = document.querySelectorAll('.adovasio-quote-slide');
+      const dots = document.querySelectorAll('.adovasio-dot');
+      const counter = document.getElementById('adovasioQuoteCounter');
+      const prevBtn = document.getElementById('adovasioPrevBtn');
+      const nextBtn = document.getElementById('adovasioNextBtn');
+      const viewport = document.getElementById('adovasioQuotesViewport');
+      if (!slides.length) return;
+
+      let currentIndex = 0;
+      let autoTimer = null;
+
+      function updateHeight() {
+        const activeSlide = slides[currentIndex];
+        if (activeSlide && viewport) {
+          viewport.style.minHeight = activeSlide.offsetHeight + 'px';
+        }
+      }
+
+      function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+
+        slides[currentIndex].classList.remove('active');
+        if (dots[currentIndex]) dots[currentIndex].classList.remove('active');
+
+        currentIndex = index;
+
+        slides[currentIndex].classList.add('active');
+        if (dots[currentIndex]) dots[currentIndex].classList.add('active');
+
+        if (counter) {
+          counter.textContent = `0${currentIndex + 1} / 0${slides.length}`;
+        }
+
+        updateHeight();
+        resetAutoTimer();
+      }
+
+      function resetAutoTimer() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(() => {
+          goToSlide(currentIndex + 1);
+        }, 7000);
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => goToSlide(idx));
+      });
+
+      // Click anywhere on slide to go to next slide (like Adovasio nextClicker)
+      if (viewport) {
+        viewport.addEventListener('click', (e) => {
+          if (!e.target.closest('button')) {
+            goToSlide(currentIndex + 1);
+          }
+        });
+      }
+
+      window.addEventListener('resize', updateHeight, { passive: true });
+      setTimeout(updateHeight, 200);
+      resetAutoTimer();
+    })();
+  </script>
+</body>
+</html>
